@@ -7,6 +7,7 @@
 //
 
 #include "converter.h"
+#include <iostream>
 
 using namespace std;
 
@@ -28,14 +29,32 @@ string methodConstructorConvert(string objc_method) {
      then we should remove that space to avoid confusions */
     if (objc_method.find(" (") != -1) objc_method.erase(1,1);
     
-    /* Declare Swift Method Variable */
+    /* If the method is like ")method_name" instead of ") method_name",
+     then we should remove that space to avoid confusions */
+    
+    
+    /* Declare Return Variable */
     string swift_method;
     
     /* Depending on '+' or '-', add "class func" or "func" */
     swift_method += (objc_method.at(0) == '-') ? "func ":"class func ";
     
-    /* Now we will split the string into a string[] with the space as a delimeter */
+    /* Now we will split the string into a vector<string> with the space as a delimeter */
+    vector<string> objcMethod;
+    string tmp;
+    string::iterator i;
+    objcMethod.clear();
+    for(i = objc_method.begin(); i <= objc_method.end(); ++i) {
+        if((const char)*i != ' '  && i != objc_method.end()) {
+            tmp += *i;
+        } else {
+            objcMethod.push_back(tmp);
+            tmp = "";
+        }
+    }
     
+    /* Add method name */
+        swift_method += objcMethod[0].substr(objcMethod[0].find(")")+1, objcMethod[0].length());
     
     return swift_method;
 }

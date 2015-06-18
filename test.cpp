@@ -10,7 +10,7 @@
 #include "converter.h"
 
 int main(int argc, const char *argv[]) {
-    std::string method = methodConstructorConvert("     -     (NSString)      function_name");
+    std::string method = methodConstructorConvert("     -     (NSString)function_name");
     std::cout << method << std::endl;
     return 0;
 }
